@@ -1,0 +1,14 @@
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetworkClient.exe.config
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetworkClient.exe
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetworkClient.pdb
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetwork.dll
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetwork.pdb
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.csprojResolveAssemblyReference.cache
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.exe
+D:\Programming\Git Repositories\Machine Learning Exercises\NeuralNetwork\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.pdb
+D:\Programming\Git Repositories\Machine Learning Exercises\BackPropagationNeuralNetwork\NeuralNetworkClient\bin\Debug\NeuralNetworkClient.exe.config
+D:\Programming\Git Repositories\Machine Learning Exercises\BackPropagationNeuralNetwork\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.exe
+D:\Programming\Git Repositories\Machine Learning Exercises\BackPropagationNeuralNetwork\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.pdb
+D:\Programming\Git Repositories\Machine Learning Exercises\Backpropagation Neural Network\NeuralNetworkClient\bin\Debug\NeuralNetworkClient.exe.config
+D:\Programming\Git Repositories\Machine Learning Exercises\Backpropagation Neural Network\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.exe
+D:\Programming\Git Repositories\Machine Learning Exercises\Backpropagation Neural Network\NeuralNetworkClient\obj\Debug\NeuralNetworkClient.pdb
