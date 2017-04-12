@@ -42,3 +42,62 @@ mses.5[13]
 which.min(mses.3)
 mses.3[28]
 # MSE is smallest when m = 5 (amongst 3, 5 and 8) and n = 13 trees.
+
+# 8 
+# a)
+library(ISLR)
+attach(Carseats)
+set.seed(1)
+train = sample(nrow(Carseats), nrow(Carseats) / 2)
+X.train = Carseats[train, ]
+X.test = Carseats[-train, ]
+# b)
+utils:::menuInstallPkgs()
+library(tree)
+tree.fit = tree(Sales~., data = X.train)
+plot(tree.fit)
+text(tree.fit, pretty = 0)
+pred = predict(tree.fit, data = X.test)
+test.mse = mean((pred - Sales)^2)
+test.mse
+test.mse = mean((pred - X.test$Sales)^2)
+test.mse
+# 14.5% test MSE
+# c)
+tree.cv = cv.tree(tree.fit)
+names(tree.cv)
+tree.cv
+par(mfrow=c(1,2))
+plot(tree.cv$size, tree.cv$dev)
+plot(tree.cv$k, tree.cv$dev)
+which.min(tree.cv$dev)
+tree.cv$dev[8]
+# 8 is best
+tree.prune = prune.misclass(tree.fit, best = 8)
+tree.prune = prune.tree(tree.fit, best = 8)
+tree.prune.pred = predict(tree.prune.pred, data = X.test)
+tree.prune.pred = predict(tree.prune, data = X.test)
+test.mse.prune = mean((tree.prune.pred - X.test$Sales)^2)
+test.mse.prune
+# 13.6% test MSE when pruned
+# d)
+library(randomForest)
+names(Carseats)
+bag.fit = randomForest(Sales~., data = X.train, mtry = 10, importance = TRUE)
+bag.fit
+bag.pred = predict(bag.fit, data = X.test)
+bag.mse = mean((bag.pred - X.test$Sales)^2)
+bag.mse
+# 12.2%, better than regression trees
+importance (bag.fit)
+# Price, shelve location and age
+# e)
+# There seem to be five variables with importance higher than 10%
+rf.fit = randomForest(Sales~., mtry = 5, data = X.train, importance = TRUE)
+rf.fit
+rf.pred = predict(rf.fit, data = X.test)
+rf.mse = mean((rf.pred - X.test$Sales)^2)
+rf.mse
+# 11.6%, even better than bagging
+importance(rf.fit)
+# Price, shelve location and age are still the most importance, but their importance has dropped somewhat
