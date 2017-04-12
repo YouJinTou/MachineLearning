@@ -101,3 +101,68 @@ rf.mse
 # 11.6%, even better than bagging
 importance(rf.fit)
 # Price, shelve location and age are still the most importance, but their importance has dropped somewhat
+
+# 9
+library(ISLR)
+attach(OJ)
+summary(OJ)
+# a)
+set.seed(1)
+train = sample(nrow(OJ), 800)
+OJ.train = OJ[train, ]
+OJ.test = OJ[-train, ]
+# b)
+library(tree)
+tree.fit = tree(Purchase~., data = OJ.train)
+summary(tree.fit)
+# c)
+plot(tree.fit)
+text(tree.fit, pretty = 0)
+# Thre uses 4 variables to make the splits and has slightly more terminal nodes
+tree.fit
+# SpecialCH -> split is 0.5, there are 70 observations in the subtree, the deviance is not very  high compared to other leaf nodes
+# The outcome  is MM, and yprob is something like the purity of a node, I imagine, in this case 84/16
+# d)
+plot(tree.fit)
+text(tree.fit, pretty = 0)
+# LoyalCH  predominates in most splits
+# e)
+tree.pred = predict(tree.fit, data = OJ.test)
+table(tree.pred, OJ.test$Purchase)
+tree.pred = predict(tree.fit, data = OJ.test, type="class")
+table(tree.pred, OJ.test$Purchase)
+summary(tree.pred)
+table(tree.pred, Purchase)
+length(tree.pred)
+length(Purchase)
+length(OJ.test)
+dim(OJ.test)
+dim(tree.pred)
+length(tree.pred)
+dim(OJ)
+tree.pred = predict(tree.fit, OJ.test, type="class")
+length(tree.pred)
+table(tree.pred, Purchase)
+table(tree.pred, OJ.test$Purchase)
+(12 + 49) / 270
+# ~23% test error rate
+# f)
+tree.cv = cv.tree(tree.fit, FUN=prune.misclass)
+# g)
+tree.cv
+plot(tree.cv$size, tree.cv$dev)
+# h)
+# 2, 5 and 8 splits give the same error 
+# i)
+tree.pruned = prune.tree(tree.fit, best = 5)
+# j)
+summary(tree.pruned)
+summary(tree.fit)
+# 16.5% for non-pruned tree and #18.3% for pruned
+# k(
+# k)
+pruned.pred = predict(tree.pruned, OJ.test, type="class")
+table(pruned.pred, OJ.test$Purchase)
+(40+30) / 270
+# Unpruned -> 22.6%; pruned -> 25.9%
+# Something must've gone wrong
