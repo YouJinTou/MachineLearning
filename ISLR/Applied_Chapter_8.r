@@ -166,3 +166,113 @@ table(pruned.pred, OJ.test$Purchase)
 (40+30) / 270
 # Unpruned -> 22.6%; pruned -> 25.9%
 # Something must've gone wrong
+
+# 10
+library(ISLR)
+set.seed(1)
+attach(Hitters)
+# a)
+Hitters = Hitters[-which(is.na(Salary), ]
+Hitters = Hitters[-which(is.na(Salary)), ]
+Salary = log(Salary)
+summary(Hitters)
+# b)
+train = 1:200
+Hitters.train = Hitters[train, ]
+Hitters.test = Hitters[-train, ]
+# c)
+library(gbm)
+mses = rep(NA, 10)
+lambdas = seq(0, 1, 0.1)
+lambdas
+for (lambda in lambdas) {
+boost.fit = gbm(Salary~., data = Hitters.train, distribution="gaussian", n.trees = 1000, shrinkage=lambda)
+boost.pred = predict(boost.fit, data = Hitters.test, n.trees = 1000)
+mse = mean((boost.pred - Hitters.test$Salary)^2)
+mses[which(lambdas[lambda])] = mse
+}
+# The dataset is too small error
+# g)
+library(randomForest)
+names(Hitters)
+rf.fit = randomForest(Salary~., data = Hitters.train, ntree = 500, mtry = 19)
+# Errors related to there being too few unique responses
+
+# 11
+# a)
+library(ISLR)
+set.seed(1)
+train = 1:1000
+attach(Caravan)
+X.train = Caravan[train, ]
+X.test = Caravan[-train, ]
+# b)
+library(gbm)
+boost.fit = gbm(Purchase~., data = X.train, distribution = "bernoulli", n.trees = 1000, shrinkage = 0.01)
+summary(boost.fit)
+# The first three are  PREPSAUT, MKOOPKLA and MOPLHOOG
+# c)
+boost.prob = predict(boost.fit, data = X.test, n.trees = 1000, type = "response")
+boost.pred = ifelse(boost.prob > 0.2, 1, 0)
+table(boost.pred, X.test$Purchase)
+
+glm.fit = glm(Purchase~., data = X.train, family = binomial)
+glm.prob = predict(glm.fit, X.test, type = "response")
+glm.pred = ifelse(glm.prob > 0.2, 1, 0)
+
+# 12
+library(ISLR)
+attach(College)
+set.seed(1)
+train = sample(nrow(College), nrow(College) / 2)
+X.train = College[train, ]
+X.test = College[-train, ]
+names(College)
+Private
+College
+summary(College)
+fix(College)
+# Logistic Regression
+glm.fit = glm(Private~., data = X.train, family = "binomial")
+glm.probs = predict(glm.fit, data = X.test, type = "response")
+glm.pred = rep("No", length(glm.probs))
+glm.pred[glm.probs > 0.5] = "Yes"
+mean(glm.pred != X.test$Private)
+# 39%
+# Boosting
+library(gbm)
+boost.fit = gbm(Private~., data = X.train, distribution = "bernoulli", n.trees = 1000)
+BinaryPrivate = ifelse(College$Private == "Yes", 1, 0)
+boost.fit = gbm(BinaryPrivate~.-Private, data = X.train, distribution = "bernoulli", n.trees = 1000)
+fit(College)
+fix(College)
+length(BinaryPrivate)
+dim(X.train)
+BinaryPrivate = ifelse(X.train$Private == "Yes", 1, 0)
+boost.fit = gbm(BinaryPrivate~.-Private, data = X.train, distribution = "bernoulli", n.trees = 1000)
+boost.fit = gbm(BinaryPrivate~.-Private, data = X.train, distribution = "bernoulli", n.trees = 5000)
+boost.probs = predict(boost.fit, data = X.test, n.trees = 5000)
+boost.pred = rep(0, length(boost.probs))
+boost.pred[boost.probs > 0.5] = 1
+mean(boost.pred != X.test$BinaryPrivate[-train]
+)
+College$BinaryPrivate = ifelse(College$Private == "Yes", 1, 0)
+boost.fit = gbm(BinaryPrivate~.-Private, data = X.train, distribution = "bernoulli", n.trees = 5000)
+boost.probs = predict(boost.fit, data = X.test, n.trees = 5000)
+boost.pred = rep(0, length(boost.probs))
+boost.pred[boost.probs > 0.5] = 1
+mean(boost.pred != College$BinaryPrivate[-train])
+# 40%
+# Bagging
+library(randomForest)
+names(College)
+bagging.fit = randomForest(Private~., data = X.train, mtry = 15)
+bagging.pred = predict(bagging.fit, data = X.test)
+mean(bagging.pred != X.test$Private)
+# 41%
+# Random forests
+rf.fit = randomForest(Private~., data = X.train, mtry = 4)
+rf.pred = predict(rf.fit, data = X.test)
+mean(rf.pred != X.test$Private)
+# 38%
+# Looks like random forests perform best
